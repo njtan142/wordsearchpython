@@ -1,9 +1,9 @@
 import pygame
 import sys
-from Board import Board
 from Letter import Letter
+from WordSearchGenerator import WordsGenerator
 
-size = width, height = 500, 500
+size = width, height = 1000, 700
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Word Search')
 
@@ -11,11 +11,13 @@ pygame.display.set_caption('Word Search')
 white = (255, 255, 255)
 black = (0, 0, 0)
 
-board = Board(10,10, 100, 120)
 letter = Letter(10, 10, 'hey')
 
 sprites = pygame.sprite.Group()
 sprites.add(letter)
+
+wordsearch = WordsGenerator(['hello', 'world', 'python', 'word', 'search', 'magazine', 'language', 'programming'], 11, 11)
+board = wordsearch.generate()
 
 class Player:
     def __init__(self):
@@ -29,7 +31,7 @@ def redraw():
     screen.fill(black)
     board.sprites.draw(screen)
     sprites.draw(screen)
-    pygame.draw.rect(screen, (50, 50, 50), (player.x, player.y, 31, 31), 3)  # width = 3
+    # pygame.draw.rect(screen, (50, 50, 50), (player.x, player.y, 31, 31), 3)  # width = 3
     pygame.display.update()
 
 
@@ -43,8 +45,8 @@ def handlePress():
         player.x -= 31
     elif pressed[pygame.K_d]:
         player.x += 31
-
-
+    elif pressed[pygame.K_ESCAPE]:
+        sys.exit()
 
 
 while 1:
@@ -55,6 +57,4 @@ while 1:
         if event.type == pygame.KEYDOWN:
             handlePress()
 
-    print(player.x, player.y)
     redraw()
-
