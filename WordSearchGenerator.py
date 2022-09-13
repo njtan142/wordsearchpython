@@ -63,7 +63,7 @@ class WordsGenerator():
                     x += info["dx"]
                 break
         print(unplaced)
-        return Board(self.width, self.height, 50, 50, grid)
+        return Board(self.width, self.height, 320, 200, grid)
 
     def directionInfo(self, word, direction):
         minx = 0
