@@ -3,6 +3,28 @@ import sys
 from Letter import Letter
 from Scene1 import SceneOne, MainMenuScene, LevelSelection
 
+print("Welcome to Word Finder")
+username = input("Press enter to play game:")
+print("Game modes:")
+print("Easy - 1")
+print("Medium - 2")
+print("Hard - 3")
+category = input("Enter your game mode:")
+match int(category):
+    case 1:
+        print('You selected easy mode')
+    case 2:
+        print('You selected medium mode')
+    case 3:
+        print('You selected hard mode')
+    case other:
+        print('Wrong input, please restart the game')
+        sys.exit()
+
+level = input("Select level (1 to 5)")
+
+print("Your game is loaded in a new window")
+
 size = width, height = 1000, 700
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Word Search')
@@ -17,8 +39,15 @@ sprites = pygame.sprite.Group()
 sprites.add(letter)
 
 s1 = SceneOne(screen)
-main = MainMenuScene(screen)
-level = LevelSelection(screen)
+
+match int(category):
+    case 1:
+        s1.levelSelected("Easy | " + "Level " + level)
+    case 2:
+        s1.levelSelected("Medium | " + "Level " + level)
+    case 3:
+        s1.levelSelected("Hard | " + "Level " + level)
+
 
 
 class Player:
@@ -36,7 +65,6 @@ def redraw():
     pygame.display.update()
 
 
-scene = 1
 def handlePress():
     global scene
     pressed = pygame.key.get_pressed()
@@ -49,29 +77,9 @@ def handlePress():
     elif pressed[pygame.K_d]:
         player.x += 31
     elif pressed[pygame.K_ESCAPE]:
-        if scene is 3:
-            scene = 1
-        elif scene is 2:
-            scene = 1
-        else:
             sys.exit()
-    elif pressed[pygame.K_RETURN]:
-        if scene is 1:
-            scene = 2
-        elif scene is 2:
-            scene = 3
-    elif pressed[pygame.K_1]:
-        if scene is 2:
-            scene = 3
-            s1.levelSelected('Easy Level')
-    elif pressed[pygame.K_2]:
-        if scene is 2:
-            scene = 3
-            s1.levelSelected('Medium Level')
-    elif pressed[pygame.K_3]:
-        if scene is 2:
-            scene = 3
-            s1.levelSelected('Hard Level')
+
+
 
 
 
@@ -83,13 +91,9 @@ while 1:
         if event.type == pygame.KEYDOWN:
             handlePress()
 
-    print(scene)
-    match(scene):
-        case 1:
-            main.draw()
-        case 2:
-            level.draw()
-        case 3:
-            s1.draw()
+    s1.playerMovement()
+    s1.draw()
+    s1.generate()
+    # pygame.draw.rect(screen, (50, 50, 50), (player.x, player.y, 31, 31), 3)
     pygame.display.update()
 

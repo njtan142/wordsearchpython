@@ -62,7 +62,13 @@ class WordsGenerator():
                     y += info["dy"]
                     x += info["dx"]
                 break
-        print(unplaced)
+
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if len(grid[i][j]) <= 0:
+                    grid[i][j] = self.letters[math.floor(random.random() * len(self.letters))]
+
+        self.grid = grid
         return Board(self.width, self.height, 320, 200, grid)
 
     def directionInfo(self, word, direction):
