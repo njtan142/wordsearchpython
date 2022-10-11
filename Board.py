@@ -16,6 +16,8 @@ class Board(pygame.sprite.Sprite):
         self.endPos = [0, 0]
         self.start = True
         self.searches = searches
+        self.currentStartPos = (0, 0)
+        self.currentEndPos = (0, 0)
         for row in range(rows):
             for column in range(columns):
                 char = searches[row][column].upper()
@@ -30,15 +32,10 @@ class Board(pygame.sprite.Sprite):
         pygame.draw.rect(screen, (150, 150, 150),
                          pygame.Rect(self.player[0] * 31 + self.x, self.player[1] * 31 + self.y, 31, 31), 3)
 
+        # Current Line Drawing
         if self.start:
+            self.currentStartPos = (self.startPos[0] * 31 + 31 / 2 + self.x, self.startPos[1] * 31 + 31 / 2 + self.y)
+            self.currentEndPos = (self.endPos[0] * 31 + 31 / 2 + self.x, self.endPos[1] * 31 + 31 / 2 + self.y)
             pygame.draw.line(screen, (255, 0, 0),
                              (self.startPos[0] * 31 + 31 / 2 + self.x, self.startPos[1] * 31 + 31 / 2 + self.y),
-                             (self.endPos[0] * 31 + 31 / 2 + self.x, self.endPos[1] * 31 + 31 / 2 + self.y), )
-
-            # print(self.startPos, self.endPos)
-            # a = self.startPos[0] - self.endPos[0]
-            # b = self.startPos[1] - self.endPos[1]
-            # length = max(abs(a), abs(b)) + 1
-            # word = ""
-            # if self.startPos[0] > self.endPos[0]:
-            #
+                             (self.endPos[0] * 31 + 31 / 2 + self.x, self.endPos[1] * 31 + 31 / 2 + self.y), 3)

@@ -5,6 +5,7 @@ from Board import Board
 
 class WordsGenerator():
     def __init__(self, words, width=20, height=20):
+        self.unplaced = None
         self.words = words
         self.width = width
         self.height = height
@@ -62,13 +63,15 @@ class WordsGenerator():
                     y += info["dy"]
                     x += info["dx"]
                 break
-
+            if attempts >= self.maxAttempts:
+                unplaced.append(originalWord)
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if len(grid[i][j]) <= 0:
                     grid[i][j] = self.letters[math.floor(random.random() * len(self.letters))]
 
         self.grid = grid
+        self.unplaced = unplaced;
         return Board(self.width, self.height, 320, 200, grid)
 
     def directionInfo(self, word, direction):
